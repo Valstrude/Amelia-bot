@@ -1,5 +1,5 @@
 const { config } = require('dotenv');
-const { Client, ActivityType } = require('discord.js');
+const { Client, ActivityType, Options } = require('discord.js');
 const { OpenAI } = require('openai');
 const { registerCommands } = require('./registerCommands.js');
 const { olaCommand } = require('./olaCommand.js');
@@ -11,17 +11,26 @@ const { musicaCommand } = require('./musicaCommand.js');
 config();
 
 const client = new Client({
-    intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'MessageContent']
+    intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'MessageContent'], makeCache: Options.cacheWithLimits({
+        // definir o limite de cache para 0 para desabilitar o cache de guilds
+        GuildManager: 0,
+        GuildMemberManager: 0,
+        MessageManager: 0,
+        PresenceManager: 0
+    })
 });
 
 // evento quando o bot liga
 client.on("ready", async () => {
+    const guild_count = await client.guilds.fetch(); // Busca todos os servidores
+    const total_guilds = guild_count.size;
+
     console.log(`${client.user.displayName} chegou!`)
     // define o status do bot
     client.user.setStatus('online')
-    client.user.setActivity(`${client.guilds.cache.size} servidores!`, {
+    client.user.setActivity(`${total_guilds -1} servidores!`, { // -1 porque meu bot nao sei porque tava contando 3 servidores
         type: ActivityType.Watching
-    })
+    });
     registerCommands(client);
     })
 
