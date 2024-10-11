@@ -1,5 +1,5 @@
 const { config } = require('dotenv');
-const { Client, ActivityType, Options } = require('discord.js');
+const { Client, ActivityType } = require('discord.js');
 const { OpenAI } = require('openai');
 const { registerCommands } = require('./registerCommands.js');
 const { olaCommand } = require('./olaCommand.js'); // put ./commands/olaCommand for debug in visual code
@@ -26,7 +26,7 @@ client.on("ready", async () => {
         type: ActivityType.Watching
     });
     registerCommands(client);
-    })
+})
 
 client.on('interactionCreate', async interaction => {
     // Verifica se a mensagem foi enviada pelo próprio bot para evitar loops infinitos
@@ -48,6 +48,9 @@ client.on('interactionCreate', async interaction => {
             break;
         case 'tocar':
             await musicaCommand(interaction);
+            break;
+        case 'entrar':
+            await entrarCommand(interaction);
             break;
         default: // Caso o comando não seja reconhecido
             console.error('Comando não reconhecido:', interaction.commandName);
