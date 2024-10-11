@@ -74,18 +74,6 @@ async function registerCommands(client) {
                 }
             ]
         },
-        {
-            name: 'tocar',
-            description: 'quer ouvir uma música do YouTube?',
-            options: [
-                {
-                    name: 'url',
-                    description: 'URL do vídeo do YouTube',
-                    type: 3, // 3 string
-                    required: true,
-                }
-            ]
-        } // adicionar slash command
     ];
 
     // registra os slashcommands globalmente
