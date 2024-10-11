@@ -2,11 +2,11 @@ const { config } = require('dotenv');
 const { Client, ActivityType, Options } = require('discord.js');
 const { OpenAI } = require('openai');
 const { registerCommands } = require('./registerCommands.js');
-const { olaCommand } = require('./olaCommand.js');
-const { jokenpoCommand } = require('./jokenpoCommand.js');
-const { abraçarCommand } = require('./abraçarCommand.js');
-const { climaCommand } = require('./climaCommand.js');
-const { musicaCommand } = require('./musicaCommand.js');
+const { olaCommand } = require('./olaCommand.js'); // put ./commands/olaCommand for debug in visual code
+const { jokenpoCommand } = require('./jokenpoCommand.js'); // put ./commands/jokenpoCommand for debug in visual code
+const { abraçarCommand } = require('./abraçarCommand.js'); // put ./commands/abraçarCommand for debug in visual code
+const { climaCommand } = require('./climaCommand.js'); // put ./commands/climaCommand for debug in visual code
+const { musicaCommand } = require('./musicaCommand.js'); // put ./commands/musicaCommand for debug in visual code
 
 config();
 
