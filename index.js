@@ -11,13 +11,7 @@ const { musicaCommand } = require('./musicaCommand.js');
 config();
 
 const client = new Client({
-    intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'MessageContent'], makeCache: Options.cacheWithLimits({
-        // definir o limite de cache para 0 para desabilitar o cache de guilds
-        GuildManager: 0,
-        GuildMemberManager: 0,
-        MessageManager: 0,
-        PresenceManager: 0
-    })
+    intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'MessageContent']
 });
 
 // evento quando o bot liga
@@ -28,7 +22,7 @@ client.on("ready", async () => {
     console.log(`${client.user.displayName} chegou!`)
     // define o status do bot
     client.user.setStatus('online')
-    client.user.setActivity(`${total_guilds -1} servidores!`, { // -1 porque meu bot nao sei porque tava contando 3 servidores
+    client.user.setActivity(`${total_guilds -1} servidores!`, { // -1 porque 1 é servidor meu que eu exclui
         type: ActivityType.Watching
     });
     registerCommands(client);
