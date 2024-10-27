@@ -16,17 +16,20 @@ async function climaCommand(interaction) {
 
         const embed = new EmbedBuilder()
             .setTitle(`Clima em ${data.name}`)
-            .setDescription(`Pedido por: ${interaction.user}`)
             .setThumbnail(iconUrl)
             .addFields(
-                { name: 'Clima:', value: data.weather[0].description, inline: true },
+                { name: 'Estado:', value: data.weather[0].description, inline: true },
                 { name: 'Temp min:', value: `${data.main.temp_min}°${degreeType.toUpperCase()}`, inline: true },
                 { name: 'Temp Máx:', value: `${data.main.temp_max}°${degreeType.toUpperCase()}`, inline: false },
                 { name: 'Humidade:', value: `${data.main.humidity}%`, inline: true },
                 { name: 'Vento:', value: `${data.wind.speed} m/s`, inline: true },
                 { name: 'Sigla do País:', value: `${data.sys.country}`, inline: false },
             )
-            .setColor(0x1E90FF) // nao ponha ;
+            .setColor("Random") // nao ponha ;
+            .setFooter({ 
+                text: `Pedidor por: ${interaction.user.username}`, // Adiciona o texto no rodapé
+                iconURL: interaction.user.displayAvatarURL() // Adiciona o avatar no rodapé
+            })
             .setTimestamp();
 
             await interaction.reply({ embeds: [embed] });
