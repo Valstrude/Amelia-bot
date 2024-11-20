@@ -6,13 +6,22 @@ const { olaCommand } = require('./olaCommand.js'); // put ./commands/olaCommand 
 const { jokenpoCommand } = require('./jokenpoCommand.js'); // put ./commands/jokenpoCommand for debug in visual code
 const { abraçarCommand } = require('./abraçarCommand.js'); // put ./commands/abraçarCommand for debug in visual code
 const { climaCommand } = require('./climaCommand.js'); // put ./commands/climaCommand for debug in visual code
-const { musicaCommand } = require('./musicaCommand.js'); // put ./commands/musicaCommand for debug in visual code
 
 config();
 
 const client = new Client({
     intents: ['Guilds', 'GuildMembers', 'GuildMessages', 'MessageContent']
 });
+
+function reconnectbot() {
+    console.log("Estou tentando voltar...");
+    client.login(process.env.TOKEN).then(() => {
+        console.log("Estou de volta!!!");
+    }).catch(error => {
+        console.error("Não consegui entrar novamente.", error);
+        setTimeout(reconnectbot, 5000); // tenta reconectar apos um certo tempo
+    });
+}
 
 // evento quando o bot liga
 client.on("ready", async () => {
@@ -26,6 +35,11 @@ client.on("ready", async () => {
         type: ActivityType.Watching
     });
     registerCommands(client);
+})
+
+client.on('shardDisconnect', (event, shardId) => {
+    console.log(`Cai do server... (shard ${shardId}. Tentando me reconectar...`);
+    reconnectbot();
 })
 
 client.on('interactionCreate', async interaction => {
@@ -45,12 +59,6 @@ client.on('interactionCreate', async interaction => {
             break;
         case 'clima':
             await climaCommand(interaction);
-            break;
-        case 'tocar':
-            await musicaCommand(interaction);
-            break;
-        case 'entrar':
-            await entrarCommand(interaction);
             break;
         default: // Caso o comando não seja reconhecido
             console.error('Comando não reconhecido:', interaction.commandName);
@@ -97,4 +105,7 @@ client.on("messageCreate", async (message) => {
     }
 });
 
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN).catch(error => {
+    console.log('Não consegui entrar no discord, por causa disso:', error);
+    reconnectbot(); // tenta reconectar se nao funfar
+})
